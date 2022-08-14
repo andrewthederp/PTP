@@ -1,5 +1,3 @@
-import os
-
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import copy
 
@@ -304,9 +302,9 @@ class draw:
 	def rect(surface, color, rect, width=None, *, border_radius=0):
 		draw = surface._draw
 		if border_radius:
-			draw.rounded_rectangle([rect.topleft(), rect.bottomright()], fill=None if width else color, width=width, outline=color, radius=border_radius)
+			draw.rounded_rectangle([rect.topleft, rect.bottomright], fill=None if width else color, width=width, outline=color, radius=border_radius)
 		else:
-			draw.rectangle([rect.topleft(), rect.bottomright()], fill=None if width else color, width=width, outline=color)
+			draw.rectangle([rect.topleft, rect.bottomrigh], fill=None if width else color, width=width, outline=color)
 
 	def aaline(surface, color, start_pos, end_pos):
 		draw = surface._draw
@@ -322,7 +320,7 @@ class draw:
 
 	def ellipse(surface, color, rect, width=0):
 		draw = surface._draw
-		draw.ellipse([rect.topleft(), rect.bottomright()], fill=None if width else color, outline=color, width=width)		
+		draw.ellipse([rect.topleft, rect.bottomright], fill=None if width else color, outline=color, width=width)		
 
 	def line(surface, color, start_pos, end_pos, width=1):
 		draw = surface._draw
