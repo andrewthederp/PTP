@@ -1,3 +1,4 @@
+
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import copy
 
@@ -24,64 +25,14 @@ class Surface:
 		self._draw.rectangle([(0,0), self._surf.size], fill=rgb)
 
 	def get_rect(self, **kwargs):
-		topleft     = kwargs.pop('topleft', None)
-		topright    = kwargs.pop('topright', None)
-		top         = kwargs.pop('top', None)
-
-		bottomleft  = kwargs.pop('bottomleft', None)
-		bottomright = kwargs.pop('bottomright', None)
-		bottom      = kwargs.pop('bottom', None)
-
-		midtop      = kwargs.pop('midtop', None)
-		midleft     = kwargs.pop('midleft', None)
-		midright    = kwargs.pop('midright', None)
-		midbottom   = kwargs.pop('midbottom', None)
-
-		center      = kwargs.pop('center', None)
-		centerx     = kwargs.pop('centerx', None)
-		centery     = kwargs.pop('centery', None)
-
-		left        = kwargs.pop('left', None)
-		right       = kwargs.pop('right', None)
-
-		if all(i is None for i in [topleft, topright, top, bottomleft, bottomright, bottom, midtop, midleft, midright, midbottom, center, centerx, centery, left, right]):
-			return
-
 		size = self._surf.size
-		if topleft is not None:
-			return Rect(topleft, size)
-		if topright is not None:
-			return Rect((topright[0]-size[0], topright[1]), size)
-		if top is not None:
-			return Rect((0, top), size)
+		rect = Rect((0,0),size)
 
-		if bottomleft is not None:
-			return Rect((bottomleft[0], bottomleft[1]-size[1]), size)
-		if bottomright is not None:
-			return Rect((bottomright[0]-size[0], bottomright[1]-size[1]), size)
-		if bottom is not None:
-			return Rect((0, bottom-size[1]), size)
-
-		if midtop is not None:
-			return Rect((midtop[0]-size[0]//2, midtop[1]), size)
-		if midleft is not None:
-			return Rect((midleft[0], midleft[1]-size[1]//2), size)
-		if midright is not None:
-			return Rect((midright[0]-size[0], midright[1]-size[1]//2), size)
-		if midbottom is not None:
-			return Rect((midbottom[0]-size[0]//2, midbottom[1]-size[1]), size)
-
-		if center is not None:
-			return Rect((center[0]-size[0]//2, center[1]-size[1]//2), size)
-		if centerx is not None:
-			return Rect((centerx-size[0]//2, 0), size)
-		if centery is not None:
-			return Rect((0, centery-size[1]//2), size)
-
-		if left is not None:
-			return Rect((left, 0), size)
-		if right is not None:
-			return Rect((right-size[0], 0), size)
+		for place in ('topleft', 'topright', 'top', 'bottomleft', 'bottomright', 'bottom', 'midtop','midleft', 'midright', 'midbottom', 'center', 'centerx', 'centery', 'left', 'right'):
+			value = kwargs.pop(place, None)
+			if value is not None:
+				setattr(rect, place value)
+				return Rect
 
 	def get_size(self):
 		return self._surf.size
@@ -425,3 +376,4 @@ class transform:
 		im = im.resize(size)
 		surf._surf.paste(im, (0,0))
 		return surf
+
