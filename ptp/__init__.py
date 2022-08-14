@@ -31,8 +31,8 @@ class Surface:
 		for place in ('topleft', 'topright', 'top', 'bottomleft', 'bottomright', 'bottom', 'midtop','midleft', 'midright', 'midbottom', 'center', 'centerx', 'centery', 'left', 'right'):
 			value = kwargs.pop(place, None)
 			if value is not None:
-				setattr(rect, place value)
-				return Rect
+				setattr(rect, place, value)
+				return rect
 
 	def get_size(self):
 		return self._surf.size
