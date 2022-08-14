@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="PTP",
-    version="1.0.0",
+    version="1.0.1",
     description="pygame to pillow",
     author="andrew",
     project_urls={
