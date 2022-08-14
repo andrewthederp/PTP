@@ -1,3 +1,5 @@
+import os
+
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import copy
 
@@ -100,49 +102,148 @@ class Rect:
 	def __repr__(self):
 		return f"<rect({self.x}, {self.y}, {self.width}, {self.height})>"
 
-	def bottom(self):
-		return self.y+self.height
-
-	def bottomleft(self):
-		return (self.x, self.y+self.height)
-
-	def bottomright(self):
-		return (self.x+self.width, self.y+self.height)
 
 
-	def center(self):
-		return (self.x+self.width//2, self.y+self.height//2)
 
-	def centerx(self):
-		return self.x+self.width//2
+	@property
+	def h(self):
+		return self.height
+	@h.setter
+	def h(self, value):
+		self.height = value
 
-	def centery(self):
-		return self.y+self.height//2
+	@property
+	def w(self):
+		return self.width
+	@w.setter
+	def w(self, value):
+		self.width = value
 
-
-	def midbottom(self):
-		return (self.centerx(), self.y+self.height)
-
-	def midleft(self):
-		return (self.x, self.centery())
-
-	def midright(self):
-		return (self.x+self.width, self.centery())	
-	
-	def midtop(self):
-		return(self.centerx(), self.y)
-
-
-	def topleft(self):
-		return (self.x, self.y)
-
-	def topright(self):
-		return (self.x+self.width, self.y)
-
-
+	@property
 	def right(self):
 		return self.x+self.width
+	@right.setter
+	def right(self, value):
+		self.x = value-self.width
 
+	@property
+	def left(self):
+		return self.x
+	@left.setter
+	def left(self, value):
+		self.x = value
+
+
+
+
+	@property
+	def bottom(self):
+		return self.y+self.height
+	@bottom.setter
+	def bottom(self, value):
+		self.y = value-self.height
+
+	@property
+	def bottomleft(self):
+		return (self.x, self.y+self.height)
+	@bottomleft.setter
+	def bottomleft(self, value):
+		self.x = value[0]
+		self.bottom = value[1]-self.height
+
+	@property
+	def bottomright(self):
+		return (self.x+self.width, self.y+self.height)
+	@bottomright.setter
+	def bottomright(self, value):
+		self.right = self.width-value[0]
+		self.y = self.height-value[1]
+
+
+
+
+	@property
+	def center(self):
+		return (self.x+self.width//2, self.y+self.height//2)
+	@center.setter
+	def center(self, value):
+		self.x = value[0]-self.width//2
+		self.y = value[1]-self.height//2
+
+	@property
+	def centerx(self):
+		return self.x-self.width//2
+	@centerx.setter
+	def centerx(self, value):
+		self.x = value-self.width//2
+
+	@property
+	def centery(self):
+		return self.y-self.height//2
+	@centery.setter
+	def centery(self, value):
+		self.y = value-self.height//2
+
+
+
+
+	@property
+	def midbottom(self):
+		return (self.centerx, self.bottom)
+	@midbottom.setter
+	def midbottom(self, value):
+		self.bottom = value[0]
+		self.centerx = value[1]
+
+	@property
+	def midleft(self):
+		return (self.x, self.centery)
+	@midleft.setter
+	def midleft(self, value):
+		self.x = value[0]
+		self.centery = value[1]
+
+	@property
+	def midright(self):
+		return (self.right, self.centery)
+	@midright.setter
+	def midright(self, value):
+		self.right = value[0]
+		self.centery = value[1]
+
+	@property
+	def midtop(self):
+		return (self.centerx, self.y)
+	@midtop.setter
+	def midtop(self, value):
+		self.centerx = value[0]
+		self.y = value[1]
+
+
+
+
+	@property
+	def top(self):
+		return self.y
+	@top.setter
+	def top(self, value):
+		self.y = value
+
+	@property
+	def topleft(self):
+		return (self.x, self.y)
+	@topleft.setter
+	def topleft(self, value):
+		self.x = value[0]
+		self.y = value[1]
+
+	@property
+	def topright(self):
+		return (self.right, self.y)
+	@topright.setter
+	def topright(self, value):
+		self.right = value[0]
+		self.y = value[1]
 
 
 	def move(self, x=0, y=0):
@@ -161,16 +262,13 @@ class Rect:
 		if isinstance(left, tuple):
 			self.height = int(top[1])
 			self.width  = int(top[0])
-			self.left   = int(left[0])
-			self.top    = int(left[1])
+			self.x      = int(left[0])
+			self.y      = int(left[1])
 		else:
 			self.height = int(height)
 			self.width  = int(width)
-			self.left   = int(left)
-			self.top    = int(top)
-
-		self.x = self.left
-		self.y = self.top
+			self.x      = int(left)
+			self.y      = int(top)
 
 		self.h = self.height
 		self.w = self.width
@@ -199,9 +297,7 @@ class Rect:
 		return point[0] in range(self.x, self.right()) and point[1] in range(self.y, self.bottom())
 
 	def colliderect(self, rect):
-		if self.collidepoint(rect.topleft()):
-			return True
-		return rect.collidepoint(self.topleft())
+		return rect.x in range(self.x, self.right()) and rect.y in range(self.y, self.bottom())
 
 class draw:
 
