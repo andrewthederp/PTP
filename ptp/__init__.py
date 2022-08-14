@@ -1,4 +1,3 @@
-
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import copy
 
@@ -28,7 +27,7 @@ class Surface:
 		size = self._surf.size
 		rect = Rect((0,0),size)
 
-		for place in ('topleft', 'topright', 'top', 'bottomleft', 'bottomright', 'bottom', 'midtop','midleft', 'midright', 'midbottom', 'center', 'centerx', 'centery', 'left', 'right'):
+		for place in ('topleft', 'topright', 'top', 'bottomleft', 'bottomright', 'bottom','midtop','midleft', 'midright', 'midbottom', 'center', 'centerx', 'centery','left', 'right'):
 			value = kwargs.pop(place, None)
 			if value is not None:
 				setattr(rect, place, value)
@@ -255,7 +254,7 @@ class draw:
 		if border_radius:
 			draw.rounded_rectangle([rect.topleft, rect.bottomright], fill=None if width else color, width=width, outline=color, radius=border_radius)
 		else:
-			draw.rectangle([rect.topleft, rect.bottomrigh], fill=None if width else color, width=width, outline=color)
+			draw.rectangle([rect.topleft, rect.bottomright], fill=None if width else color, width=width, outline=color)
 
 	def aaline(surface, color, start_pos, end_pos):
 		draw = surface._draw
@@ -376,4 +375,3 @@ class transform:
 		im = im.resize(size)
 		surf._surf.paste(im, (0,0))
 		return surf
-
