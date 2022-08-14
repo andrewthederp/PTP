@@ -199,7 +199,9 @@ class Rect:
 		return point[0] in range(self.x, self.right()) and point[1] in range(self.y, self.bottom())
 
 	def colliderect(self, rect):
-		return rect.x in range(self.x, self.right()) and rect.y in range(self.y, self.bottom())
+		if self.collidepoint(rect.topleft()):
+			return True
+		return rect.collidepoint(self.topleft())
 
 class draw:
 
