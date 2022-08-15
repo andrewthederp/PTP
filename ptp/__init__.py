@@ -1,6 +1,9 @@
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import copy
 
+main_surf = None
+frames = []
+
 class Surface:
 	def __init__(self, size, color=(0,0,0)):
 		self._surf = Image.new('RGBA', size, color)
@@ -194,17 +197,17 @@ class Rect:
 		self.y = value[1]
 
 
+
+
+
 	def move(self, x=0, y=0):
 		return Rect((self.x+x, self.y+y), self.size())
-
 
 	def size(self):
 		return (self.width, self.height)
 
-
 	def copy(self):
 		return copy.deepcopy(self)
-
 
 	def update(self, left, top, width=None, height=None):
 		if isinstance(left, tuple):
@@ -242,10 +245,13 @@ class Rect:
 		return numbers
 
 	def collidepoint(self, point):
-		return point[0] in range(self.x, self.right()) and point[1] in range(self.y, self.bottom())
+		return point[0] in range(self.x, self.right) and point[1] in range(self.y, self.bottom)
 
 	def colliderect(self, rect):
-		return rect.x in range(self.x, self.right()) and rect.y in range(self.y, self.bottom())
+		for corner in ('topleft', 'bottomright', 'bottomleft', 'topright'): # If none of the corners are inside the rect, it isnt in it
+			if self.collidepoint(getattr(rect, corner)):
+				return True
+		return False
 
 class draw:
 
@@ -375,3 +381,33 @@ class transform:
 		im = im.resize(size)
 		surf._surf.paste(im, (0,0))
 		return surf
+
+class display:
+
+	def flip():
+		global main_surf, frames
+		if main_surf:
+			frames.append(copy.deepcopy(main_surf._surf))
+
+	def update():
+		global main_surf, frames
+		if main_surf:
+			frames.append(copy.deepcopy(main_surf._surf))
+
+	def get_desktop_sizes():
+		return ...
+
+	def get_surface():
+		global main_surf
+		return main_surf
+
+	def get_window_size():
+		global main_surf
+		if main_surf:
+			return main_surf.get_size()
+
+	def set_mode(size):
+		global main_surf, frames
+		main_surf = Surface(size)
+		frames = []
+		return main_surf
