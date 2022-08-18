@@ -39,12 +39,6 @@ class Surface:
 	def set_at(self, coor, color):
 		draw = self._draw
 		draw.point([coor], color)
-
-
-	def ellipse(surface, color, rect, width=0):
-		draw = surface._draw
-		draw.ellipse([rect.topleft, rect.bottomright], fill=None if width else color, outline=color, width=width)		
-
 		
 	def get_size(self):
 		return self._surf.size
