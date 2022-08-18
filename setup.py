@@ -2,14 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="PTP",
-    version="1.0.4",
+    version="1.0.5",
     description="pygame to pillow",
     author="andrew",
     project_urls={
         "Repository": "https://github.com/andrewthederp/PTP",
         "Issue tracker": "https://github.com/andrewthederp/PTP/issues",
     },
-    maintainer="Marcus",
     url="https://github.com/andrewthederp/PTP",
     license="Apache",
     classifiers=[
